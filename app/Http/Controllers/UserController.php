@@ -55,7 +55,7 @@ class UserController extends Controller
             'station_id' => $request->station_id,
         ]);
 
-        return redirect()->route('superadmin.users.index');
+        return redirect()->route('users.index');
     }
 
     public function edit(User $user)
@@ -84,7 +84,7 @@ class UserController extends Controller
             'station_id' => $request->station_id,
         ]);
 
-        return redirect()->route('superadmin.users.index');
+        return redirect()->route('users.index');
     }
 
     public function destroy(User $user)
@@ -92,6 +92,6 @@ class UserController extends Controller
        // $this->authorize('accessAdmin', User::class); // Apply policy
 
         $user->delete();
-        return redirect()->route('superadmin.users.index');
+        return redirect()->route('users.index');
     }
 }

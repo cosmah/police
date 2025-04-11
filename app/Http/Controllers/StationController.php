@@ -11,12 +11,12 @@ class StationController extends Controller
     public function index()
     {
         $stations = Station::all();
-        return Inertia::render('Stations/Index', ['stations' => $stations]);
+        return Inertia::render('superadmin/Stations/Index', ['stations' => $stations]);
     }
 
     public function create()
     {
-        return Inertia::render('Stations/Create');
+        return Inertia::render('superadmin/Stations/Create');
     }
 
     public function store(Request $request)
@@ -33,7 +33,7 @@ class StationController extends Controller
 
     public function edit(Station $station)
     {
-        return Inertia::render('Stations/Edit', ['station' => $station]);
+        return Inertia::render('superadmin/Stations/Edit', ['station' => $station]);
     }
 
     public function update(Request $request, Station $station)
