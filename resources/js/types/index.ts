@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface BreadcrumbItem {
     title: string;
     href: string | null;
@@ -12,6 +14,10 @@ export interface Station {
 export interface User {
     id: number;
     name: string;
+    email: string; // Changed to string
+    role: string; // Changed to string
+    station: Station | null; // Corrected station type
+    station_id: number | null; // Added station_id
 }
 
 export interface Document {
@@ -22,4 +28,16 @@ export interface Document {
     file_path: string;
     station: Station;
     user: User;
+}
+
+export interface NavItem {
+    title: string;
+    href: string;
+    icon: React.ComponentType;
+}
+
+export interface AuthUser {
+    user: {
+        role: string;
+    }
 }

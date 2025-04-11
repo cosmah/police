@@ -1,6 +1,9 @@
 <?php
+
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\StationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -9,12 +12,18 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // General dashboard for officers
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Admin dashboard
+    Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('superadmin/dashboard', [DashboardController::class, 'index'])->name('superadmin.dashboard');
+
+    Route::resource('users', UserController::class);
+    Route::resource('stations', StationController::class);
+
     Route::resource('documents', DocumentController::class)->only(['index', 'create', 'store', 'show']);
 });
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';
