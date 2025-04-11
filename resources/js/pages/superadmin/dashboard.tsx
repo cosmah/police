@@ -118,7 +118,7 @@ export default function Dashboard({ stations, documents, filters, auth }: Props)
                                         <td className="px-6 py-4 text-sm">{doc.user.name}</td>
                                         <td className="px-6 py-4 text-sm">
                                             <Link
-                                                href={`/documents/${doc.id}`}
+                                                href={`/admin/documents/${doc.id}`}
                                                 className="text-blue-600 hover:underline"
                                             >
                                                 View

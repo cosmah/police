@@ -10,6 +10,7 @@ use Inertia\Inertia;
 
 class AdminDocumentController extends Controller
 {
+
     public function index()
     {
         $documents = Document::with(['station', 'user'])->get();
@@ -85,6 +86,7 @@ class AdminDocumentController extends Controller
 
     public function show(Document $document)
     {
+        $document->load('station', 'user'); // Eager load the 'station' and 'user' relationships
         return Inertia::render('AdminDocuments/Show', ['document' => $document]);
     }
 }

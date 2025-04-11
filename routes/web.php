@@ -27,7 +27,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('admin/documents', AdminDocumentController::class);
 
 
-    Route::resource('documents', DocumentController::class)->only(['index', 'create', 'store', 'show']);
+    //Route::resource('documents', DocumentController::class)->only(['index', 'create', 'store', 'show']);
 });
 
 require __DIR__ . '/settings.php';
