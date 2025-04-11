@@ -4,6 +4,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StationController;
+use App\Http\Controllers\AdminDocumentController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -21,6 +22,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('users', UserController::class);
     Route::resource('stations', StationController::class);
+
+    // Admin Document Routes
+    Route::resource('admin/documents', AdminDocumentController::class);
+
 
     Route::resource('documents', DocumentController::class)->only(['index', 'create', 'store', 'show']);
 });

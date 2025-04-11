@@ -14,13 +14,14 @@ export interface Station {
 export interface User {
     id: number;
     name: string;
-    email: string; // Changed to string
-    role: string; // Changed to string
-    station: Station | null; // Corrected station type
-    station_id: number | null; // Added station_id
+    email: string;
+    role: string;
+    station: Station | null;
+    station_id: number | null;
 }
 
 export interface Document {
+    created_at: any;
     id: number;
     title: string;
     description: string | null;
@@ -28,6 +29,7 @@ export interface Document {
     file_path: string;
     station: Station;
     user: User;
+    station_id: number | null; // Added station_id here
 }
 
 export interface NavItem {
