@@ -1,13 +1,13 @@
-// AdminDocuments/Create.tsx
 import { type BreadcrumbItem } from '@/types';
 import AppLayout from '@/layouts/app-layout';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Head, router, Link } from '@inertiajs/react';
 import { Station } from '@/types';
 import { Save, ArrowLeft, FileText, Building, Tags, AlignLeft, Upload } from 'lucide-react';
 
 interface AdminDocumentsCreateProps {
   stations: Station[];
+  adminStationId: number;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -17,14 +17,19 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 
-const AdminDocumentsCreate: React.FC<AdminDocumentsCreateProps> = ({ stations }) => {
+const AdminDocumentsCreate: React.FC<AdminDocumentsCreateProps> = ({ stations, adminStationId }) => {
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
-  const [stationId, setStationId] = useState<number | null>(null);
+  const [stationId, setStationId] = useState<number>(adminStationId);
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
+
+  // Make sure stationId is set to adminStationId on initial load
+  useEffect(() => {
+    setStationId(adminStationId);
+  }, [adminStationId]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +39,7 @@ const AdminDocumentsCreate: React.FC<AdminDocumentsCreateProps> = ({ stations })
     formData.append('title', title);
     formData.append('category', category);
     formData.append('description', description || '');
-    formData.append('station_id', stationId?.toString() || '');
+    // No need to append station_id as it will be set in the controller
 
     if (pdfFile) {
       formData.append('pdf_file', pdfFile);
@@ -68,6 +73,9 @@ const AdminDocumentsCreate: React.FC<AdminDocumentsCreateProps> = ({ stations })
       }
     }
   };
+
+  // Find the admin's station name
+  const adminStation = stations.find(station => station.id === adminStationId);
 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
@@ -135,20 +143,12 @@ const AdminDocumentsCreate: React.FC<AdminDocumentsCreateProps> = ({ stations })
                   <Building className="h-4 w-4 mr-1" /> Station
                 </label>
                 <div className="mt-1">
-                  <select
-                    id="station"
-                    name="station_id"
-                    value={stationId || ""}
-                    onChange={(e) => setStationId(e.target.value ? parseInt(e.target.value) : null)}
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                  >
-                    <option value="">Select a station</option>
-                    {stations.map((station) => (
-                      <option key={station.id} value={station.id}>
-                        {station.name}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="shadow-sm block w-full sm:text-sm border border-gray-300 rounded-md bg-gray-50 px-3 py-2 dark:bg-gray-600 dark:border-gray-600 dark:text-gray-200">
+                    {adminStation?.name || 'Your Station'}
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      Documents are automatically assigned to your station
+                    </p>
+                  </div>
                 </div>
               </div>
 
