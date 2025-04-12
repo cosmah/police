@@ -10,47 +10,60 @@ import AppLogo from './app-logo';
 
 export function AppSidebar() {
     const { auth } = usePage<{ auth: AuthUser }>().props;
-    const isAdmin = auth.user?.role === 'admin' || auth.user?.role === 'super_admin';
+    const isSuperAdmin = auth.user?.role === 'super_admin';
+    const isAdmin = auth.user?.role === 'admin';
     const isOfficer = auth.user?.role === 'officer';
 
-    const mainNavItems: NavItem[] = [
-        ...(isAdmin ? [
-            {
-                title: 'Dashboard',
-                href: '/dashboard',
-                icon: LayoutGrid,
-            },
-            {
-                title: 'Users',
-                href: '/users',
-                icon: Users,
-            },
-            {
-                title: 'Stations',
-                href: '/stations',
-                icon: Building2,
-            },
-            {
-                title: 'Documents',
-                href: '/admin/documents',
-                icon: FilePlus,
-            },
-            {
-                title: 'Documents View',
-                href: '/officer/documents',
-                icon: FileText,
-            },
-        ] : []),
-        ...(isOfficer ? [
-            {
-                title: 'Documents View',
-                href: '/officer/documents',
-                icon: FileText,
-            },
-        ] : []),
+    // Dashboard is available to all users
+    const dashboardItem: NavItem = {
+        title: 'Dashboard',
+        href: '/dashboard',
+        icon: LayoutGrid,
+    };
+
+    // Define role-specific navigation items
+    const superAdminItems: NavItem[] = [
+        dashboardItem,
+        {
+            title: 'Users',
+            href: '/users',
+            icon: Users,
+        },
+        {
+            title: 'Stations',
+            href: '/stations',
+            icon: Building2,
+        }
     ];
 
+    const adminItems: NavItem[] = [
+        dashboardItem,
+        {
+            title: 'Documents',
+            href: '/admin/documents',
+            icon: FilePlus,
+        }
+    ];
 
+    const officerItems: NavItem[] = [
+        dashboardItem,
+        {
+            title: 'Documents View',
+            href: '/officer/documents',
+            icon: FileText,
+        }
+    ];
+
+    // Determine which items to show based on user role
+    let mainNavItems: NavItem[] = [];
+
+    if (isSuperAdmin) {
+        mainNavItems = superAdminItems;
+    } else if (isAdmin) {
+        mainNavItems = adminItems;
+    } else if (isOfficer) {
+        mainNavItems = officerItems;
+    }
 
     return (
         <Sidebar collapsible="icon" variant="inset">
