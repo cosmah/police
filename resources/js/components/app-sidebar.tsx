@@ -5,12 +5,13 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { NavItem, AuthUser } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, Users, Building2, FilePlus } from 'lucide-react';
+import { BookOpen, Folder, LayoutGrid, Users, Building2, FilePlus, FileText } from 'lucide-react';
 import AppLogo from './app-logo';
 
 export function AppSidebar() {
     const { auth } = usePage<{ auth: AuthUser }>().props;
     const isAdmin = auth.user?.role === 'admin' || auth.user?.role === 'super_admin';
+    const isOfficer = auth.user?.role === 'officer';
 
     const mainNavItems: NavItem[] = [
         ...(isAdmin ? [
@@ -34,21 +35,22 @@ export function AppSidebar() {
                 href: '/admin/documents',
                 icon: FilePlus,
             },
+            {
+                title: 'Documents View',
+                href: '/officer/documents',
+                icon: FileText,
+            },
+        ] : []),
+        ...(isOfficer ? [
+            {
+                title: 'Documents View',
+                href: '/officer/documents',
+                icon: FileText,
+            },
         ] : []),
     ];
 
-    const footerNavItems: NavItem[] = [
-        {
-            title: 'Repository',
-            href: 'https://github.com/laravel/react-starter-kit',
-            icon: Folder,
-        },
-        {
-            title: 'Documentation',
-            href: 'https://laravel.com/docs/starter-kits',
-            icon: BookOpen,
-        },
-    ];
+
 
     return (
         <Sidebar collapsible="icon" variant="inset">
@@ -69,7 +71,6 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

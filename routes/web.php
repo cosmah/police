@@ -7,6 +7,8 @@ use App\Http\Controllers\StationController;
 use App\Http\Controllers\AdminDocumentController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\OfficerDocumentController;
+
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -28,6 +30,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
     //Route::resource('documents', DocumentController::class)->only(['index', 'create', 'store', 'show']);
+    // Officer Document Routes
+    Route::prefix('officer')->group(function () {
+        Route::get('documents', [OfficerDocumentController::class, 'index'])->name('officer.documents.index');
+        Route::get('documents/{document}', [OfficerDocumentController::class, 'show'])->name('officer.documents.show');
+        Route::get('documents/{document}/download', [OfficerDocumentController::class, 'download'])->name('officer.documents.download');
+    });
 });
 
 require __DIR__ . '/settings.php';
