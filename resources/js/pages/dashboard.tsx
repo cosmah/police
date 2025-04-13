@@ -87,7 +87,7 @@ export default function Dashboard({ stations, documents, filters }: Props) {
                                 <th className="px-6 py-3 text-left text-sm font-medium">Category</th>
                                 <th className="px-6 py-3 text-left text-sm font-medium">Station</th>
                                 <th className="px-6 py-3 text-left text-sm font-medium">Created By</th>
-                                <th className="px-6 py-3 text-left text-sm font-medium">Action</th>
+                                {/* <th className="px-6 py-3 text-left text-sm font-medium">Action</th> */}
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
@@ -98,14 +98,14 @@ export default function Dashboard({ stations, documents, filters }: Props) {
                                         <td className="px-6 py-4 text-sm">{doc.category}</td>
                                         <td className="px-6 py-4 text-sm">{doc.station.name}</td>
                                         <td className="px-6 py-4 text-sm">{doc.user.name}</td>
-                                        <td className="px-6 py-4 text-sm">
+                                        {/* <td className="px-6 py-4 text-sm">
                                             <Link
                                                 href={`/documents/${doc.id}`}
                                                 className="text-blue-600 hover:underline"
                                             >
                                                 View
                                             </Link>
-                                        </td>
+                                        </td> */}
                                     </tr>
                                 ))
                             ) : (
